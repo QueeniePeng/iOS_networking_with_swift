@@ -40,3 +40,45 @@ HTTP status code
 
 HTTP GET request
   — a type of HTTP request where a client requests a specified resource from a server
+
+
+Completion handler
+  — a block of code that is executed after something completes like a network task
+HTTPS
+  — a protocol built on top of HTTP that ensures data sent over the network is encrypted, or concealed, from unauthorized access
+
+ATS (App Transport Security)
+  — Apple’s set of security standards for ensuring our apps keep users’ data safe
+
+Singleton
+  — a special kind of object that can only be instantiated once
+
+NSURL
+  — represents a URL
+
+NSURLSession
+  — manages network requests for our app
+
+NSURLSessionConfiguration
+  — specify settings (ex. timeout interval) for a NSURLSession
+
+NSURLSessionTask
+  — a network task that can be executed
+
+NSURLSessionDataTask
+  — subclass of NSURLSessionTask; downloads data directly into memory
+
+NSURLSessionDownloadTask
+  — subclass of NSURLSessionTask; downloads data to a temporary file
+
+NSURLSessionUploadTask
+  — subclass of NSURLSessionTask; specialized for uploading data
+
+NSData
+  — represents data as raw bytes
+
+NSURLResponse
+  — a container for information about the response to a network request such its status code
+
+NSError
+  — a container for information about an error condition
