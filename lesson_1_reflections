@@ -1,0 +1,42 @@
+Concept List
+--------------------------------------------------------------------------------
+Network
+  — the global system of interconnected computer networks from which we can access data.
+
+Data
+  — images, text, video, or any media that can be used by our apps.
+
+Protocol
+  — a way of communicating; standard operating procedure; the rules for communication
+
+HTTP (Hypertext Transfer Protocol)
+  — a protocol or “handshake” that defines how messages (and data) are sent
+    and received by computers; the underlying protocol for the World Wide Web
+
+Client
+  — a computer that requests data (or services) from a server
+
+Server
+  — a computer that provides data (or services) to a client upon request
+
+HTTP request
+  — a request for data (or a resource) that a client makes to a server;
+  there are various types of HTTP requests called “HTTP methods”
+
+URL (Uniform Resource Locator)
+  — specifies the location for retrieving data over the web;
+  can be thought of as the name of a file on the World Wide Web,
+  because it usually refers to a file on some machine on the network
+
+HTTP method
+  — specifies the type of HTTP request that is being made; in this course,
+  we will also call these (HTTP) request types
+
+HTTP status code
+  — a number returned in response to an HTTP request which indicates the result
+  of the request; you may also hear these referred to as “response codes” or
+  “status messages." Here is a nice listing of different HTTP status codes.
+  HTTP status codes: https://httpstatuses.com/
+
+HTTP GET request
+  — a type of HTTP request where a client requests a specified resource from a server
