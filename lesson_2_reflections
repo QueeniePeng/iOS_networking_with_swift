@@ -1,0 +1,61 @@
+How does it work?
+  - break the URL into small fragments, escape the URL
+  - make a request from flickr to get JSON data
+  - parse the data for computer readable info. like UIImage, string text.
+
+Lecturer answers:
+1.) The client contacts the server and tries to use the
+flickr.galleries.getPhotos method to get some (URLs of) photos.
+
+2.) The server returns a JSON object that contains
+locations of photos in the specified gallery.
+
+3.) The client randomly chooses something out of that JSON object,
+attempts to download the image from that randomly chosen URL, and displays it."
+
+
+
+Concept List
+--------------------------------------------------------------------------------
+Web service
+  — a software application that enables the communication of data over a network
+
+API (Application Program Interface)
+  — a set of methods that are specialized for a purpose;
+  many web services are also referred to as APIs or “network” APIs
+
+JSON (JavaScript Object Notation)
+  — a data format used frequently to communicate data over a network
+
+Parameters (in a URL)
+  — a value specified in a URL usually in the format of “parameter=value”
+
+ASCII (American Standard Code for Information Interchange)
+  — a simple way of representing characters in a computer
+
+URL escaping/encoding
+  — a mechanism for ensuring that all characters in a URL are valid ASCII characters
+
+API key
+  — a value distributed by an API provider that uniquely identifies applications using it service
+
+NSURLRequest
+  — represents a configurable URL that can specify properties such as the HTTP method type
+
+Serialization
+  — converting an object into a stream of bytes; this is often done to send an
+  object over the network so that it can be recreated somewhere else
+
+Deserialization
+  — converting a stream of bytes into an object; the opposite of serialization
+
+NSJSONSerialization
+  — a class used to convert bytes of JSON data into objects or vice versa
+
+NSDictionary
+  — Objective-C’s version of a Dictionary; sometimes we must use it in Swift
+  when working with certain APIs like NSJSONSerialization
+
+NSArray
+  — Objective-C’s version of an Array; sometimes we must use it in Swift
+  when working with certain APIs like NSJSONSerialization
