@@ -1,0 +1,53 @@
+JSON Parsing Prep
+--------------------------------------------------------------------------------
+The key to parsing JSON is converting JSON types into usable Swift types.
+
+JSON Example
+
+{
+  "first": "John",
+  "last": "Smith",
+  "age": 35,
+  "employed": true,
+  "hobbies": [
+    "fishing",
+    "bowling",
+    "programming"
+  ],
+  "relatives": {
+    "mother": "Susan",
+    "father": "Eric",
+    "siblings": null
+  }
+}
+
+Notice, the above JSON is contained in curly braces {}.
+This is indicative of a JSON Object type which translates nicely into a Swift
+dictionary. Also notice, there is another JSON Object that is the value of the
+"relatives" key.
+
+
+JSON Types to Swift Types
+--------------------------------------------------------------------------------
+
+Here is a simple mapping JSON types to Swift types (JSON ==> Swift):
+
+  null ==> nil
+  Number ==> Int, Float, Double, ...
+  String ==> String
+  Boolean ==> Bool
+  Array ==> [AnyObject]
+  Object ==> [String:AnyObject]
+
+Note the use of AnyObject for arrays and objects.
+You will likely want a more specific type;
+however, for safety, it is a good idea to start by parsing values as AnyObject
+and then optionally casting them to more specific types.
+
+Nesting of Objects (Dictionaries)
+
+More complex JSON data sets will often embed objects into arrays.
+This can look confusing at first, but it is actually quite simple.
+Here is the Swift type that can represent this complex structure:
+
+[[String:AnyObject]]
