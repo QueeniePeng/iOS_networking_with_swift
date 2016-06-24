@@ -100,23 +100,18 @@ class ViewController: UIViewController {
     }
     // lat: 48.85 lont: 2.29
     private func bboxString() -> String {
-        let inputLatitude = Double(latitudeTextField.text!)
-        let inputLontitude = Double(longitudeTextField.text!)
         
-        let latitudeABox = min(inputLatitude! - Constants.Flickr.SearchBBoxHalfHeight, inputLatitude! + Constants.Flickr.SearchBBoxHalfWidth)
-        
-        let latitudeBBox = max(inputLatitude! - Constants.Flickr.SearchBBoxHalfHeight, inputLatitude! + Constants.Flickr.SearchBBoxHalfWidth)
-        
-        let longtitudeABox = min(inputLontitude! - Constants.Flickr.SearchBBoxHalfHeight, inputLontitude! + Constants.Flickr.SearchBBoxHalfWidth)
-        
-        let longtitudeBbox = max(inputLontitude! - Constants.Flickr.SearchBBoxHalfHeight, inputLontitude! + Constants.Flickr.SearchBBoxHalfWidth)
-        
-        if isValueInRange(latitudeABox, min: Constants.Flickr.SearchLatRange.0, max: Constants.Flickr.SearchLatRange.1) && isValueInRange(latitudeBBox, min: Constants.Flickr.SearchLatRange.0, max: Constants.Flickr.SearchLatRange.1) && isValueInRange(longtitudeABox, min: Constants.Flickr.SearchLonRange.0, max: Constants.Flickr.SearchLonRange.1) && isValueInRange(longtitudeBbox, min: Constants.Flickr.SearchLonRange.0, max: Constants.Flickr.SearchLonRange.1) {
-         
-            return String(longtitudeABox) + "," + String(latitudeABox) + String(longtitudeBbox) + "," + String(latitudeBBox)
+        if let latitude = Double(latitudeTextField.text!), let longtitude = Double(longitudeTextField.text!) {
+            
+            let minLongtitude = max(longtitude - Constants.Flickr.SearchBBoxHalfWidth, Constants.Flickr.SearchLonRange.0)
+            let minLatitude = max(latitude - Constants.Flickr.SearchBBoxHalfHeight, Constants.Flickr.SearchLatRange.0)
+            let maxLongtitude = min(longtitude + Constants.Flickr.SearchBBoxHalfWidth, Constants.Flickr.SearchLonRange.1)
+            let maxLatitude = min(latitude + Constants.Flickr.SearchBBoxHalfHeight, Constants.Flickr.SearchLatRange.1)
+            
+            return "\(minLongtitude),\(minLatitude),\(maxLongtitude),\(maxLatitude)"
+        } else {
+            return "0,0,0,0"
         }
-        
-        return ""
     }
     
     // MARK: Flickr API
