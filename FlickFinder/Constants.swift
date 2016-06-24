@@ -48,7 +48,6 @@ struct Constants {
         static let GalleryID = "5704-72157622566655097"
         static let MediumURL = "url_m"
         static let UseSafeSearch = "1"
-        static let useText = "oranges"
     }
     
     // MARK: Flickr Response Keys

@@ -117,10 +117,26 @@ class ViewController: UIViewController {
     // MARK: Flickr API
     
     private func displayImageFromFlickrBySearch(methodParameters: [String:AnyObject]) {
-
-        print(flickrURLFromParameters(methodParameters))
         
-        // TODO: Make request to Flickr!
+        let session = NSURLSession.sharedSession()
+        let request = NSURLRequest(URL: flickrURLFromParameters(methodParameters))
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            func displayError(error: String) {
+                print(error)
+                performUIUpdatesOnMain {
+                    self.setUIEnabled(true)
+                    self.photoTitleLabel.text = "No photo returned. Try again"
+                    self.photoImageView.image = nil
+                }
+            }
+            if error == nil {
+                print(data!)
+            } else {
+                print(error!.localizedDescription)
+            }
+        }
+        task.resume()
     }
     
     // MARK: Helper for Creating a URL from Parameters
