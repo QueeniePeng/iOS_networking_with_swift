@@ -120,6 +120,9 @@ class ViewController: UIViewController {
         
         let session = NSURLSession.sharedSession()
         let request = NSURLRequest(URL: flickrURLFromParameters(methodParameters))
+        
+        print(flickrURLFromParameters(methodParameters))
+        
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
             func displayError(error: String) {
@@ -132,6 +135,43 @@ class ViewController: UIViewController {
             }
             if error == nil {
                 print(data!)
+                if let data = data {
+                    var parsedResult: AnyObject!
+                    parsedResult = try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! NSDictionary
+//                    do {
+//                        parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+//                    } catch {
+//                        print("Could not parse the data as JSON: \(data)'")
+//                        return
+//                    }
+                    print("cool")
+                    guard let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject] else {
+                        print("Could not find key 'photos' in parsedResult: \(parsedResult)'")
+                        return
+                    }
+                    
+                    guard let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]] else {
+                        print("Could not find key 'photo' in photosDictionary: \(photosDictionary)'")
+                        return
+                    }
+                    
+                    print(photosDictionary)
+                    print(photoArray)
+                    
+                    let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
+                    let photoDictionary = photoArray[randomPhotoIndex] as [String: AnyObject]
+                    
+                    if let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String, let photoTitle = photoDictionary[Constants.FlickrResponseKeys.Title] as? String {
+                        
+                        let imgaeURL = NSURL(string: imageUrlString)
+                        if let imageData = NSData(contentsOfURL: imgaeURL!) { performUIUpdatesOnMain() {
+                            self.photoImageView.image = UIImage(data: imageData)
+                            self.photoTitleLabel.text = photoTitle
+                            self.setUIEnabled(true)
+                            }
+                        }
+                    }
+                }
             } else {
                 print(error!.localizedDescription)
             }
