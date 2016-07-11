@@ -64,7 +64,6 @@ class ViewController: UIViewController {
                 Constants.FlickrParameterKeys.Text:phraseTextField.text,
                 Constants.FlickrParameterKeys.Method:Constants.FlickrParameterValues.SearchMethod
             ]
-            
             displayImageFromFlickrBySearch(methodParameters)
         } else {
             setUIEnabled(true)
@@ -90,7 +89,6 @@ class ViewController: UIViewController {
                 Constants.FlickrParameterKeys.Method:Constants.FlickrParameterValues.SearchMethod,
                 Constants.FlickrParameterKeys.BoundingBox:bboxString()
             ]
-            
             displayImageFromFlickrBySearch(methodParameters)
         }
         else {
@@ -133,47 +131,72 @@ class ViewController: UIViewController {
                     self.photoImageView.image = nil
                 }
             }
-            if error == nil {
-                print(data!)
-                if let data = data {
-                    var parsedResult: AnyObject!
-                    parsedResult = try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! NSDictionary
-//                    do {
-//                        parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-//                    } catch {
-//                        print("Could not parse the data as JSON: \(data)'")
-//                        return
-//                    }
-                    print("cool")
-                    guard let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject] else {
-                        print("Could not find key 'photos' in parsedResult: \(parsedResult)'")
-                        return
-                    }
+            
+            // Guard: was there an error
+            guard (error == nil) else {
+                displayError("There was an error with your request: \(error)")
+                return
+            }
+            
+            // Guard: Did we get a successful response?
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                displayError("Your request returned a status code other than 2xx")
+                return
+            }
+            
+            // Guard: was there any data returned?
+            guard let data = data else {
+                displayError("No data was returned from the request")
+                return
+            }
+            
+            // parse the data
+            let parsedResult: AnyObject!
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            } catch {
+                displayError("Could not parse the data as JSON: \(data)'")
+                return
+            }
+            
+            // Guard: did flickr return an error? (status != ok)
+            guard let stat = parsedResult[Constants.FlickrResponseKeys.Status] as? String where stat == Constants.FlickrResponseValues.OKStatus else {
+                displayError("Flickr api returned an error, See error code in \(parsedResult)")
+                return
+            }
+            
+            // Guard: Is the 'photos' key in the result?
+            guard let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject] else {
+                displayError("Could not find key 'photos' in parsedResult: \(parsedResult)'")
+                return
+            }
+            
+            // Guard: Is the 'photo' key in photosDictionary?
+            guard let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]] else {
+                displayError("Could not find key 'photo' in photosDictionary: \(photosDictionary)'")
+                return
+            }
+            
+            if photoArray.count == 0 {
+                displayError("no photo found, try again")
+                return
+            } else {
+                
+                let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
+                let photoDictionary = photoArray[randomPhotoIndex] as [String: AnyObject]
+                
+                if let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String, let photoTitle = photoDictionary[Constants.FlickrResponseKeys.Title] as? String {
                     
-                    guard let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]] else {
-                        print("Could not find key 'photo' in photosDictionary: \(photosDictionary)'")
-                        return
-                    }
-                    
-                    print(photosDictionary)
-                    print(photoArray)
-                    
-                    let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
-                    let photoDictionary = photoArray[randomPhotoIndex] as [String: AnyObject]
-                    
-                    if let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String, let photoTitle = photoDictionary[Constants.FlickrResponseKeys.Title] as? String {
-                        
-                        let imgaeURL = NSURL(string: imageUrlString)
-                        if let imageData = NSData(contentsOfURL: imgaeURL!) { performUIUpdatesOnMain() {
-                            self.photoImageView.image = UIImage(data: imageData)
-                            self.photoTitleLabel.text = photoTitle
-                            self.setUIEnabled(true)
-                            }
+                    let imageURL = NSURL(string: imageUrlString)
+                    if let imageData = NSData(contentsOfURL: imageURL!) { performUIUpdatesOnMain() {
+                        self.photoImageView.image = UIImage(data: imageData)
+                        self.photoTitleLabel.text = photoTitle ?? "(Untitle)"
+                        self.setUIEnabled(true)
                         }
+                    } else {
+                        displayError("Image doesnot exist in \(imageURL)")
                     }
                 }
-            } else {
-                print(error!.localizedDescription)
             }
         }
         task.resume()
