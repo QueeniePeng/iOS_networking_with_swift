@@ -1,6 +1,6 @@
 Concept List
 --------------------------------------------------------------------------------
-NSURLComponents 
+NSURLComponents
   — assists with the building URLs (with safe ASCII characters) from their individual components
 
 NSURLQueryItem
@@ -17,3 +17,6 @@ Path
 
 Query
   — the portion of the URL consisting of name/value pairs which are processed by the server when creating a response
+
+Asynchronous request
+  — a term referring to a (network) request that when execute does not block the rest of an application from running

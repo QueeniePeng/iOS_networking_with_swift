@@ -51,3 +51,15 @@ This can look confusing at first, but it is actually quite simple.
 Here is the Swift type that can represent this complex structure:
 
 [[String:AnyObject]]
+
+
+Exercise Instructions
+Next, you will complete a series of exercises about JSON parsing in Swift.
+The JSON for each exercise is available in two formats: (1) bundled with a
+playground file or (2) as a stand-alone json file. You can find all of these
+in the Supporting Materials section in problem-set-json-parsing.zip.
+
+For the first format mentioned (bundled with a playground file), you can find
+the JSON by opening the playground file in Xcode and clicking on
+View -> Navigators -> Show Project Navigator and then looking for the
+JSON file in the Resources directory.
