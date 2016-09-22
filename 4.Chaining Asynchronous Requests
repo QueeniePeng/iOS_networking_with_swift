@@ -1,0 +1,27 @@
+Concept List
+--------------------------------------------------------------------------------
+NSURLComponents
+  — assists with the building URLs (with safe ASCII characters)
+  from their individual components
+
+NSURLQueryItem
+  — represents a single name/value pair in the query portion of a URL
+
+Scheme
+  — the part of the URL that specifies the protocol to be used
+
+Hostname (Host)
+  — the name of the server where your request is destined (colloquially
+  referred to as the “website name”)
+
+Path
+  — the portion of the URL that specifies the location for the resource you
+  are requested
+
+Query
+  — the portion of the URL consisting of name/value pairs which are processed
+  by the server when creating a response
+
+Asynchronous request
+  — a term referring to a (network) request that when execute does not block
+  the rest of an application from running
