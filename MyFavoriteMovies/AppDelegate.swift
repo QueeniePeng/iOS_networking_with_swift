@@ -52,6 +52,7 @@ extension AppDelegate {
             let queryItem = NSURLQueryItem(name: key, value: "\(value)")
             components.queryItems!.append(queryItem)
         }
+        print(components.URL)
         
         return components.URL!
     }
