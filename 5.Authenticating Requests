@@ -1,0 +1,83 @@
+Accessing User vs. Anonymous Data
+--------------------------------------------------------------------------------
+Personal and Private == "User" data
+Anyone can access == "Anonymous" data
+
+Concept List
+--------------------------------------------------------------------------------
+Authentication
+  — ensuring someone’s identity (i.e. “we’ve confirmed this user is indeed
+  Jarrod Parkes”)
+
+Authorization
+  — providing someone access to something (i.e. “this user is allowed to post
+  ratings for movies”)
+
+TheMovieDB (TMDB)
+  — the web service we’ll use in this lesson; if you see the abbreviation TMDB,
+  we’re referring to TheMovieDB
+
+HTTP body
+  — part of an HTTP request that allows us to pass parameters without having
+  to pass them in the URL
+
+HTTP headers
+  — additional parameters than can be sent in an HTTP request that specify how
+  the request should operate
+
+HTTP POST request
+  — a type of HTTP request where a client submits data to a server for processing
+
+Authorization flow
+  — a term used to refer to the steps necessary to authenticate and authorize a
+  user
+
+Authorization standards
+  — a commonly used authorization flow; we will not use a specific standard in
+  this course, but we will use a flow that is similar to the authorization
+  standard called OAuth
+
+Domain
+  — (basic definition) what allows a client to find and connect to a server
+
+Subdomain
+  — an extension to a domain that allows a server to organize specific resources
+  together
+
+  Breaking Each Method into 7 Steps
+  Overview
+
+  Splitting big tasks into small tasks is often one of the best ways to solve a
+  problem. Thus, in the next few exercises, we will split each request/method
+  into a 7 step process. In the source code, I have commented each of these
+  steps to assist you as you implement the requests.
+
+7 Step Process
+--------------------------------------------------------------------------------
+
+[1] Set the parameters
+
+- Create a dictionary containing name/value pairs for any parameters that
+should be included in the final URL
+For example, if the final URL is https://api.themoviedb.org/3/authentication/
+token/new?api_key=ENTER_YOUR_API_KEY_HERE, then your dictionary should include
+a name/value pair for the API key
+
+[2/3] Build the URL, Configure the Request
+
+- Use the app delegate's tmdbURLFromParameters method to construct the final URL
+Create (and configure, if necessary) a request object
+
+[4] Make the request
+- Using the shared NSURLSession, create the network task and specify a completion
+handler
+
+[5] Parse the data
+- Assuming there is no error when the request returns, parse the JSON into a
+usable object
+
+[6] Use the data!
+- Extract the data required for the specified task
+
+[7] Start the request
+- To initiate the network task, it must be started (resumed)
