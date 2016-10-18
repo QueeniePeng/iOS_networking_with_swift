@@ -390,6 +390,7 @@
 				A9855BBD1BEC3EDB00000031 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
