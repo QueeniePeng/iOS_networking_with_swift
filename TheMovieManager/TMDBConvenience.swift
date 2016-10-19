@@ -272,8 +272,10 @@ extension TMDBClient {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let parameters = [TMDBClient.ParameterKeys.SessionID : TMDBClient.sharedInstance().sessionID!]
+        
         var mutableMethod: String = Methods.AccountIDFavorite
         mutableMethod = subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.UserID, value: String(TMDBClient.sharedInstance().userID!))!
+        
         let jsonBody = "{\"\(TMDBClient.JSONBodyKeys.MediaType)\": \"movie\",\"\(TMDBClient.JSONBodyKeys.MediaID)\": \"\(movie.id)\",\"\(TMDBClient.JSONBodyKeys.Favorite)\": \(favorite)}"
         
         /* 2. Make the request */
@@ -295,8 +297,34 @@ extension TMDBClient {
     func postToWatchlist(movie: TMDBMovie, watchlist: Bool, completionHandlerForWatchlist: (result: Int?, error: NSError?) -> Void) {
         
         /* 1. Specify parameters, the API method, and the HTTP body (if POST) */
+        let parameters = [TMDBClient.ParameterKeys.SessionID: TMDBClient.sharedInstance().sessionID!]
+        
+        var mutableMethod: String = Methods.AccountIDWatchlist
+        mutableMethod = subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.UserID, value: String(TMDBClient.sharedInstance().userID))!
+        
+        /* {
+         "media_type": "movie",
+         "media_id": 11,
+         "watchlist": true
+         } */
+        let jsonBody: String = "{\"\(TMDBClient.JSONBodyKeys.MediaType)\": \"movie\",\"\(TMDBClient.JSONBodyKeys.MediaID)\": \"\(movie.id)\",\"\(TMDBClient.JSONBodyKeys.Watchlist)\": \(watchlist)}"
+        
         /* 2. Make the request */
-        /* 3. Send the desired value(s) to completion handler */
+        taskForPOSTMethod(mutableMethod, parameters: parameters, jsonBody: jsonBody) { (result, error) in
+            
+            /* 3. Send the desired value(s) to completion handler */
+            if let error = error {
+                completionHandlerForWatchlist(result: nil, error: error)
+            } else {
+                if let results = result[TMDBClient.JSONResponseKeys.StatusCode] as? Int where results == 1 {
+                    completionHandlerForWatchlist(result: results, error: nil)
+                } else if let results = result[TMDBClient.JSONResponseKeys.StatusCode] as? Int where results == 3 {
+                    completionHandlerForWatchlist(result: nil, error: NSError(domain: "postToWatchlistParsing", code: 3, userInfo: [NSLocalizedDescriptionKey: "\(TMDBClient.JSONResponseKeys.StatusMessage)\": Authentication failed: You do not have permissions to access the service."]))
+                } else {
+                    completionHandlerForWatchlist(result: nil, error: NSError(domain: "postToWatchlistParsing", code: 34, userInfo: [NSLocalizedDescriptionKey: "\(TMDBClient.JSONResponseKeys.StatusMessage)\": The resource you requested could not be found."]))
+                }
+            }
+        }
         
         /*
         
