@@ -17,6 +17,7 @@ class MovieDetailViewController: UIViewController {
     var movie: TMDBMovie?
     var isFavorite = false
     var isWatchlist = false
+    var isRated = false
     
     // MARK: Outlets
     
@@ -24,6 +25,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var toggleFavoriteButton: UIBarButtonItem!
     @IBOutlet weak var toggleWatchlistButton: UIBarButtonItem!
+    @IBOutlet weak var toggleRatingTextField: UITextField!
     
     // MARK: Life Cycle
     
@@ -43,7 +45,7 @@ class MovieDetailViewController: UIViewController {
             
             // set the title
             if let releaseYear = movie.releaseYear {
-                navigationItem.title = "\(movie.title) (\(releaseYear))"
+                navigationItem.title = "\(movie.title) (\(releaseYear))(\(movie.rating))"
             } else {
                 navigationItem.title = "\(movie.title)"
             }
@@ -63,6 +65,11 @@ class MovieDetailViewController: UIViewController {
                     }
                     
                     performUIUpdatesOnMain {
+                        // set the movie rating, format it to .0 Float
+                        self.toggleRatingTextField.text = String(format: "%.1f", movie.rating)
+                        
+                        
+                        
                         if self.isFavorite {
                             self.toggleFavoriteButton.tintColor = nil
                         } else {

@@ -16,6 +16,7 @@ struct TMDBMovie {
     let id: Int
     let posterPath: String?
     let releaseYear: String?
+    let rating: Float
     
     // MARK: Initializers
     
@@ -23,7 +24,14 @@ struct TMDBMovie {
     init(dictionary: [String:AnyObject]) {        
         title = dictionary[TMDBClient.JSONResponseKeys.MovieTitle] as! String
         id = dictionary[TMDBClient.JSONResponseKeys.MovieID] as! Int
+
         posterPath = dictionary[TMDBClient.JSONResponseKeys.MoviePosterPath] as? String
+        
+        if let movieRating = dictionary[TMDBClient.JSONResponseKeys.MovieRating] as? Float {
+            rating = movieRating
+        } else {
+            rating = 0.0
+        }
         
         if let releaseDateString = dictionary[TMDBClient.JSONResponseKeys.MovieReleaseDate] as? String where releaseDateString.isEmpty == false {
             releaseYear = releaseDateString.substringToIndex(releaseDateString.startIndex.advancedBy(4))
@@ -43,6 +51,7 @@ struct TMDBMovie {
         
         return movies
     }
+    
 }
 
 // MARK: - TMDBMovie: Equatable
