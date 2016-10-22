@@ -1,0 +1,39 @@
+Techniques for "Failing Gracefully"
+--------------------------------------------------------------------------------
+Beyond what we’ve seen, there are many other ways to “fail gracefully” in the
+face of networking connectivity issues such as…
+
+- Using a framework (like Reachability) that can determine the state of a device
+’s network connection, and then adjust the app’s behavior based on that state.
+
+- Adding a feature where network requests to retry upon failure.
+
+- Designing an “offline” mode for your app.
+
+- Persist data on a device so that additional network requests are minimized.
+(You’ll see more of this in our course on persistence!)
+
+Extended Topics
+--------------------------------------------------------------------------------
+iOS Networking is not limited to the concepts taught in this course. So,
+for those of you who would like to explore more, here are some additional
+networking-related resources for iOS:
+
+- WWDC 2015: Networking with NSURLSession
+(https://developer.apple.com/videos/play/wwdc2015/711/)
+
+- Socket Programming in iOS
+(https://developer.apple.com/library/content/documentation/NetworkingInternet
+/Conceptual/NetworkingTopics/Articles/UsingSocketsandSocketStreams.html)
+
+- Performance Monitoring with Pulse.io
+
+- Game Center Programming Guide
+(https://developer.apple.com/library/content/documentation/NetworkingInternet
+/Conceptual/GameKit_Guide/Introduction/Introduction.html#//apple_ref/doc/uid
+/TP40008304-CH1-SW1)
+
+- Local and Remote Push Notifications
+
+- Downloading in the Background
+(https://realm.io/news/gwendolyn-weston-ios-background-networking/)
